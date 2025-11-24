@@ -1,0 +1,12 @@
+{
+  "domain": "frosted_glass_manager",
+  "name": "Frosted Glass Theme Manager",
+  "version": "1.2.2",
+  "documentation": "https://github.com/wessamlauf/frosted-glass-manager",
+  "issue_tracker": "https://github.com/wessamlauf/frosted-glass-manager/issues",
+  "dependencies": [],
+  "codeowners": ["@wessamlauf"],
+  "requirements": [],
+  "iot_class": "local_push",
+  "config_flow": true
+}

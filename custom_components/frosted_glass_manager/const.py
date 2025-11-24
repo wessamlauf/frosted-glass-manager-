@@ -1976,6 +1976,6 @@ Frosted Glass Custom Lite:
       paper-slider-height: '5px'
       border-radius: '18px'
 
-      # --- End of Theme ---
+      # --- End of Theme """
 
 

@@ -30,7 +30,10 @@ DEFAULT_LIGHT_BG_URL = "https://cdn.jsdelivr.net/gh/wessamlauf/homeassistant-fro
 DEFAULT_DARK_BG_URL = "https://cdn.jsdelivr.net/gh/wessamlauf/homeassistant-frosted-glass-themes@refs/heads/main/themes/frosted-glass-dark-background.jpg"
 
 THEME_FILENAME = "Frosted Glass Custom.yaml"
-
+LITE_THEME_FILENAME = "Frosted Glass Custom Lite.yaml"
+# ==============================================================================
+# 1. FULL THEME TEMPLATE
+# ==============================================================================
 THEME_TEMPLATE = """# Frosted Glass
 
 Frosted Glass Custom:

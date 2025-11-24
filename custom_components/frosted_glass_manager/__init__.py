@@ -36,31 +36,28 @@ async def update_theme_listener(hass: HomeAssistant, entry: ConfigEntry):
 
 async def async_update_theme_file(hass: HomeAssistant, entry: ConfigEntry):
     
-    # Check for RESET flag
+    # RESET LOGIC
     if entry.options.get("reset_defaults", False):
         _LOGGER.info("Resetting Frosted Glass Theme to Defaults")
-        # Update options back to defaults (clears the reset flag too)
         new_options = {
             "light_primary": DEFAULT_LIGHT_PRIMARY,
-            "light_text": DEFAULT_LIGHT_TEXT,
             "light_bg": DEFAULT_LIGHT_BG,
             "dark_primary": DEFAULT_DARK_PRIMARY,
-            "dark_text": DEFAULT_DARK_TEXT,
             "dark_bg": DEFAULT_DARK_BG,
             "reset_defaults": False
         }
         hass.config_entries.async_update_entry(entry, options=new_options)
-        # Variables will be loaded from these new defaults below
     
-    # Load values (either from User Input or Defaults if just reset)
-    # Fallback to defaults if key is missing
+    # Load values
     light_p = entry.options.get("light_primary", DEFAULT_LIGHT_PRIMARY)
-    light_t = entry.options.get("light_text", DEFAULT_LIGHT_TEXT)
     light_bg = entry.options.get("light_bg", DEFAULT_LIGHT_BG)
     
     dark_p = entry.options.get("dark_primary", DEFAULT_DARK_PRIMARY)
-    dark_t = entry.options.get("dark_text", DEFAULT_DARK_TEXT)
     dark_bg = entry.options.get("dark_bg", DEFAULT_DARK_BG)
+    
+    # Text colors are hardcoded to theme defaults as requested
+    light_t = DEFAULT_LIGHT_TEXT
+    dark_t = DEFAULT_DARK_TEXT
     
     # Convert colors
     lp_str = rgb_to_str(light_p)
@@ -73,7 +70,7 @@ async def async_update_theme_file(hass: HomeAssistant, entry: ConfigEntry):
     
     _LOGGER.info(f"Generating Theme... Light: {lp_hex}, Dark: {dp_hex}")
 
-    # Replace placeholders
+    # Replace placeholders in template
     theme_content = THEME_TEMPLATE.replace(
         "__LIGHT_PRIMARY_RGB__", lp_str
     ).replace(

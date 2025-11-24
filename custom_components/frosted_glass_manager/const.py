@@ -33,6 +33,115 @@ Frosted Glass Custom:
       # --- Hex Variations ---
       ha-color-primary-50: '__LIGHT_HEX__'
       color-primary-50: '__LIGHT_HEX__'
+
+      # =========================
+      # CARDS / CARD-MOD
+      # =========================
+      card-mod-card: |
+        /* Base reset */
+        ha-card {
+          background: transparent;
+          backdrop-filter: none;
+          -webkit-backdrop-filter: none;
+        }
+
+        /* Glass layer */
+        ha-card::before {                                                                                      /* 1.2 Glass – glass overlay */
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: var(--ha-card-glass-tint, rgba(255, 255, 255, 0.08));                                    /* 1.2 Glass – subtle tint */
+          backdrop-filter: var(--ha-card-backdrop-filter, blur(8px) saturate(1.2));
+          -webkit-backdrop-filter: var(--ha-card-backdrop-filter, blur(8px) saturate(1.2));
+          z-index: -1;
+          pointer-events: none;
+          border-radius: inherit;
+          box-shadow: var(--ha-card-glass-inset-shadow,                                                         /* 1.2 Glass – inner bevel/glow */
+            3px 3px 0.5px -3.5px rgba(255, 255, 255, 0.30) inset,
+            -2px -2px 0.5px -2px rgba(255, 255, 255, 0.30) inset,
+            0 0 8px 1px rgba(255, 255, 255, 0.10) inset,
+            0 0 2px 0 rgba(0, 0, 0, 0.10)
+          );
+        }
+
+        /* Headings + Glance (kept as your exclusions) */
+        :host(hui-heading-card) ha-card,
+        :host(hui-glance-card) ha-card {
+          background: none !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+        }
+        :host(hui-heading-card) ha-card::before,
+        :host(hui-glance-card) ha-card::before {
+          content: none !important;
+        }
+
+        /* IMPORTANT: Allow normal Markdown cards to be glassy; only exclude text-only variant */
+        /* (Fix) Removed global :host(hui-markdown-card) exclusion you had before                     # 1.2 Glass – bugfix
+           so standard Markdown gets the glass. The text-only variant remains excluded below. */
+
+        /* Data tables */
+        .mdc-data-table {
+          background: none !important;
+        }
+        .mdc-data-table__header-cell {
+          background: rgba(255, 255, 255, 0.1) !important;
+          backdrop-filter: var(--ha-card-backdrop-filter) !important;
+          -webkit-backdrop-filter: var(--ha-card-backdrop-filter) !important;
+          box-shadow: var(--ha-card-glass-inset-shadow) !important;                                           /* 1.2 Glass – consistent bevel */
+        }
+
+        /* Markdown card with text_only → no background or blur */                        # 1.1.9 Change - text only markdown and mushroom title card no background // Beginning
+        :host(.text-only) ha-card,
+        :host(.text-only) ha-card::before,
+        ha-card.text-only,
+        ha-card.text-only::before {                                                                           /* 1.2 Glass – add ha-card.text-only for compatibility */
+          background: none !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+          box-shadow: none !important;
+          content: none !important;
+        }
+
+        /* Mushroom title card (no background or blur) */
+        :host(mushroom-title-card) ha-card {
+          background: none !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+          box-shadow: none !important;                                                                         /* 1.2 Glass – ensure no bevel */
+        }
+        :host(mushroom-title-card) ha-card::before {
+          content: none !important;
+        }
+
+        /* === Prevent frosted glass from applying to bubble cards ===               # 1.2 Change - Bubble cards are no longer applied */
+        :host(.type-custom-bubble-card) ha-card {
+          background: none !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+          box-shadow: none !important;
+          border-radius: 0px !important;
+        }
+        :host(.type-custom-bubble-card) ha-card::before {
+          content: none !important;
+          background: none !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+        }
+
+        /* === Prevent frosted glass from applying to mushroom-chips-card outer container ===      # 1.2 Change - Outer mushroom chips no longer applied  */
+        :host(mushroom-chips-card) ha-card {
+          background: none !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+          box-shadow: none !important;
+        }
+        :host(mushroom-chips-card) ha-card::before {
+          content: none !important;
+          background: none !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+        }
       
       # --- Tokens & Card Mod Root ---
       card-mod-root: |
@@ -200,7 +309,116 @@ Frosted Glass Custom:
       # --- Hex Variations ---
       ha-color-primary-50: '__DARK_HEX__'
       color-primary-50: '__DARK_HEX__'
-      
+
+      # =========================
+      # CARDS / CARD-MOD
+      # =========================
+      card-mod-card: |
+        /* Base reset */
+        ha-card {
+          background: transparent;
+          backdrop-filter: none;
+          -webkit-backdrop-filter: none;
+        }
+
+        /* Glass layer (variable-driven, matches Light) */
+        ha-card::before {                                                                   /* 1.2 Glass – glass overlay */
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: var(--ha-card-glass-tint, rgba(28, 29, 33, 0.18));                    /* 1.2 Glass – subtle dark tint */
+          backdrop-filter: var(--ha-card-backdrop-filter, blur(10px) saturate(1.2));
+          -webkit-backdrop-filter: var(--ha-card-backdrop-filter, blur(10px) saturate(1.2));
+          z-index: -1;
+          pointer-events: none;
+          border-radius: inherit;
+          box-shadow: var(--ha-card-glass-inset-shadow,                                     /* 1.2 Glass – inner bevel/glow */
+            3px 3px 0.5px -3.5px rgba(255, 255, 255, 0.22) inset,
+            -2px -2px 0.5px -2px rgba(255, 255, 255, 0.18) inset,
+            0 0 8px 1px rgba(255, 255, 255, 0.06) inset,
+            0 0 2px 0 rgba(0, 0, 0, 0.18)
+          );
+        }
+
+        /* Headings + Glance (kept excluded) */
+        :host(hui-heading-card) ha-card,
+        :host(hui-glance-card) ha-card {
+          background: none !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+        }
+        :host(hui-heading-card) ha-card::before,
+        :host(hui-glance-card) ha-card::before {
+          content: none !important;
+        }
+
+        /* IMPORTANT: Allow normal Markdown to be glassy; only exclude text-only */
+        /* (Fix) Removed global :host(hui-markdown-card) exclusion so standard Markdown gets glass. */
+
+        /* Data tables */
+        .mdc-data-table {
+          background: none !important;
+        }
+        .mdc-data-table__header-cell {
+          background: rgba(30, 33, 54, 0.18) !important;
+          backdrop-filter: var(--ha-card-backdrop-filter) !important;
+          -webkit-backdrop-filter: var(--ha-card-backdrop-filter) !important;
+          box-shadow: var(--ha-card-glass-inset-shadow) !important;                         /* 1.2 Glass – consistent bevel */
+        }
+
+        /* Markdown card with text_only → no background or blur */                          # 1.1.9 Change - text only markdown and mushroom title card no background // Beginning
+        :host(.text-only) ha-card,
+        :host(.text-only) ha-card::before,
+        ha-card.text-only,
+        ha-card.text-only::before {                                                         /* 1.2 Glass – add ha-card.text-only for compatibility */
+          background: none !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+          box-shadow: none !important;
+          content: none !important;
+        }
+
+        /* Mushroom title card (no background or blur) */
+        :host(mushroom-title-card) ha-card {
+          background: none !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+          box-shadow: none !important;                                                      /* 1.2 Glass – ensure no bevel */
+        }
+        :host(mushroom-title-card) ha-card::before {
+          content: none !important;
+        }
+
+        /* === Prevent frosted/glass from applying to bubble cards ===                      # 1.1.9 Change - Bubble cards are no longer applied */
+        :host(.type-custom-bubble-card) ha-card {
+          background: none !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+          box-shadow: none !important;
+          border-radius: 0px !important;
+        }
+        :host(.type-custom-bubble-card) ha-card::before {
+          content: none !important;
+          background: none !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+        }
+
+        /* === Prevent frosted/glass on mushroom-chips-card outer container ===             # 1.1.9 Change - Outer mushroom chips no longer applied */
+        :host(mushroom-chips-card) ha-card {
+          background: none !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+          box-shadow: none !important;
+        }
+        :host(mushroom-chips-card) ha-card::before {
+          content: none !important;
+          background: none !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+        }
+
+        /* (Removed) .bubble-button-card-container styling to avoid conflicts               # 1.2 Glass – matches Light exclusions */
       # --- Tokens & Card Mod Root ---
       card-mod-root: |
         :host {

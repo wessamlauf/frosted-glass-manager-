@@ -3,9 +3,9 @@
   "name": "Frosted Glass Theme Manager",
   "codeowners": ["@wessamlauf"],
   "config_flow": true,
-  "documentation": "https://github.com/wessamlauf/frosted-glass-manager",
+  "documentation": "https://github.com/wessamlauf/frosted-glass-manager-",
   "iot_class": "local_push",
-  "issue_tracker": "https://github.com/wessamlauf/frosted-glass-manager/issues",
+  "issue_tracker": "https://github.com/wessamlauf/frosted-glass-manager-/issues",
   "requirements": [],
   "version": "1.2.2"
 }

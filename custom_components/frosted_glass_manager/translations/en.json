@@ -1,0 +1,25 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "title": "Frosted Glass Theme Manager",
+                "description": "Allows customization of the Frosted Glass theme colors directly from the UI."
+            }
+        },
+        "abort": {
+            "single_instance_allowed": "Only one instance of Frosted Glass Manager is allowed."
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "title": "Theme Settings",
+                "description": "Enter colors in HEX format (e.g., #6A74D3). The theme will regenerate automatically.",
+                "data": {
+                    "primary_color": "Primary Color (HEX)",
+                    "accent_color": "Accent Color (HEX)"
+                }
+            }
+        }
+    }
+}

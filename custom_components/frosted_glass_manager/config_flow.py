@@ -2,14 +2,12 @@
 import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import callback
-# We'll use simple strings for now to avoid selector complexity if imports fail, 
-# but selectors provide the color picker.
 from homeassistant.helpers.selector import (
     ColorRGBSelector,
     ColorRGBSelectorConfig,
 )
 
-from .const import DOMAIN, DEFAULT_PRIMARY_COLOR, DEFAULT_ACCENT_COLOR
+from .const import DOMAIN, DEFAULT_LIGHT_RGB, DEFAULT_DARK_RGB
 
 class FrostedGlassConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Frosted Glass Manager."""
@@ -33,7 +31,7 @@ class FrostedGlassConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
 
 class FrostedGlassOptionsFlow(config_entries.OptionsFlow):
-    """Handle options flow."""
+    """Handle options flow (Settings)."""
 
     def __init__(self, config_entry):
         self.config_entry = config_entry
@@ -43,13 +41,18 @@ class FrostedGlassOptionsFlow(config_entries.OptionsFlow):
         if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
 
-        current_primary = self.config_entry.options.get("primary_color", DEFAULT_PRIMARY_COLOR)
-        current_accent = self.config_entry.options.get("accent_color", DEFAULT_ACCENT_COLOR)
+        # Get current values or defaults
+        current_light = self.config_entry.options.get("light_primary", DEFAULT_LIGHT_RGB)
+        current_dark = self.config_entry.options.get("dark_primary", DEFAULT_DARK_RGB)
 
-        # Using a text input that expects HEX for simplicity and robustness
+        # Schema with Native Color Picker
         schema = vol.Schema({
-            vol.Required("primary_color", default=current_primary): str,
-            vol.Required("accent_color", default=current_accent): str,
+            vol.Required("light_primary", default=current_light): ColorRGBSelector(
+                ColorRGBSelectorConfig()
+            ),
+            vol.Required("dark_primary", default=current_dark): ColorRGBSelector(
+                ColorRGBSelectorConfig()
+            ),
         })
 
         return self.async_show_form(

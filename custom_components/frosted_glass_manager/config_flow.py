@@ -5,17 +5,18 @@ from homeassistant.core import callback
 from homeassistant.helpers.selector import (
     ColorRGBSelector,
     ColorRGBSelectorConfig,
-    BooleanSelector,
 )
 
 from .const import (
     DOMAIN, 
-    DEFAULT_LIGHT_PRIMARY, DEFAULT_LIGHT_BG,
-    DEFAULT_DARK_PRIMARY, DEFAULT_DARK_BG
+    DEFAULT_LIGHT_RGB, 
+    DEFAULT_DARK_RGB,
+    DEFAULT_LIGHT_BG,
+    DEFAULT_DARK_BG
 )
 
 class FrostedGlassConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for Frosted Glass Manager."""
+    """Handle a config flow."""
     VERSION = 1
 
     async def async_step_user(self, user_input=None):
@@ -39,20 +40,22 @@ class FrostedGlassOptionsFlow(config_entries.OptionsFlow):
         if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
 
-        current_light_p = self.config_entry.options.get("light_primary", DEFAULT_LIGHT_PRIMARY)
-        current_light_bg = self.config_entry.options.get("light_bg", DEFAULT_LIGHT_BG)
+        current_light = self.config_entry.options.get("light_primary", DEFAULT_LIGHT_RGB)
+        current_dark = self.config_entry.options.get("dark_primary", DEFAULT_DARK_RGB)
         
-        current_dark_p = self.config_entry.options.get("dark_primary", DEFAULT_DARK_PRIMARY)
+        current_light_bg = self.config_entry.options.get("light_bg", DEFAULT_LIGHT_BG)
         current_dark_bg = self.config_entry.options.get("dark_bg", DEFAULT_DARK_BG)
 
         schema = vol.Schema({
-            vol.Required("light_primary", default=current_light_p): ColorRGBSelector(ColorRGBSelectorConfig()),
+            vol.Required("light_primary", default=current_light): ColorRGBSelector(
+                ColorRGBSelectorConfig()
+            ),
             vol.Required("light_bg", default=current_light_bg): str,
             
-            vol.Required("dark_primary", default=current_dark_p): ColorRGBSelector(ColorRGBSelectorConfig()),
+            vol.Required("dark_primary", default=current_dark): ColorRGBSelector(
+                ColorRGBSelectorConfig()
+            ),
             vol.Required("dark_bg", default=current_dark_bg): str,
-            
-            vol.Optional("reset_defaults", default=False): BooleanSelector(),
         })
 
         return self.async_show_form(step_id="init", data_schema=schema)

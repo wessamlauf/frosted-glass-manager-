@@ -3,20 +3,24 @@
         "step": {
             "user": {
                 "title": "Frosted Glass Theme Manager",
-                "description": "Customize Frosted Glass colors and backgrounds."
+                "description": "Click Submit to set up the Theme Manager."
             }
+        },
+        "abort": {
+            "single_instance_allowed": "Only one instance of Frosted Glass Manager is allowed."
         }
     },
     "options": {
         "step": {
             "init": {
-                "title": "Theme Customization",
-                "description": "Configure colors and background images for Light and Dark modes. \n\nFor backgrounds, enter a full URL (e.g. http...) or a local path (e.g. /local/my-bg.jpg).",
+                "title": "Customize Theme",
+                "description": "Change colors and backgrounds. Check 'Reset to Defaults' to revert changes.",
                 "data": {
-                    "light_primary": "Light Mode Color",
-                    "light_bg": "Light Background URL",
-                    "dark_primary": "Dark Mode Color",
-                    "dark_bg": "Dark Background URL"
+                    "light_primary_color": "Light Mode: Primary Color",
+                    "light_background_url": "Light Mode: Background Image URL",
+                    "dark_primary_color": "Dark Mode: Primary Color",
+                    "dark_background_url": "Dark Mode: Background Image URL",
+                    "reset_defaults": "RESET to Defaults (Check and Submit)"
                 }
             }
         }

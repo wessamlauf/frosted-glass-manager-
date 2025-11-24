@@ -79,6 +79,16 @@ Want to go back to the original "Blurple/Blue" look?
 
 Everything will revert to the original Frosted Glass color scheme.
 
+-----
+
+## 🖼️ **Screenshots** (color picker/custom color/custom background)
+<img alt="image" src="https://github.com/user-attachments/assets/dd595745-66ab-41a1-ae71-cc80967ea838" />
+<img  alt="image" src="https://github.com/user-attachments/assets/e44b8d28-1807-4a48-a4a4-59c904a288b2" />
+<img alt="image" src="https://github.com/user-attachments/assets/984c356b-776f-40b8-b86d-9fa4fdf12162" />
+
+
+
+
 ---
 
 ## ❤️ Support the Project

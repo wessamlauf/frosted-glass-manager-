@@ -6,19 +6,17 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import ConfigType
 
-from .const import DOMAIN, THEME_TEMPLATE, THEME_FILENAME
+from .const import DOMAIN, THEME_TEMPLATE, THEME_FILENAME, DEFAULT_LIGHT_RGB, DEFAULT_DARK_RGB
 
 _LOGGER = logging.getLogger(__name__)
 
-def hex_to_rgb_string(hex_color):
-    """Converts HEX (#RRGGBB) to 'R, G, B' string."""
-    hex_color = hex_color.lstrip('#')
-    if len(hex_color) != 6:
-        return "106, 116, 211" # Fallback default
-    r = int(hex_color[0:2], 16)
-    g = int(hex_color[2:4], 16)
-    b = int(hex_color[4:6], 16)
-    return f"{r}, {g}, {b}"
+def rgb_to_hex(rgb_list):
+    """Converts [r, g, b] list to '#RRGGBB' string."""
+    return "#{:02x}{:02x}{:02x}".format(rgb_list[0], rgb_list[1], rgb_list[2])
+
+def rgb_to_str(rgb_list):
+    """Converts [r, g, b] list to 'r, g, b' string."""
+    return f"{rgb_list[0]}, {rgb_list[1]}, {rgb_list[2]}"
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up the integration."""
@@ -26,13 +24,8 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up from a config entry."""
-    
-    # Listen for updates
     entry.async_on_unload(entry.add_update_listener(update_theme_listener))
-    
-    # Initial generation
     await async_update_theme_file(hass, entry)
-    
     return True
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
@@ -46,25 +39,31 @@ async def update_theme_listener(hass: HomeAssistant, entry: ConfigEntry):
 async def async_update_theme_file(hass: HomeAssistant, entry: ConfigEntry):
     """Generate the theme YAML file and reload themes."""
     
-    primary_hex = entry.options.get("primary_color", "#6A74D3")
-    accent_hex = entry.options.get("accent_color", "#6A74D3")
+    # 1. Get RGB Lists from Options (e.g. [106, 116, 211])
+    light_rgb_list = entry.options.get("light_primary", DEFAULT_LIGHT_RGB)
+    dark_rgb_list = entry.options.get("dark_primary", DEFAULT_DARK_RGB)
     
-    primary_rgb = hex_to_rgb_string(primary_hex)
-    accent_rgb = hex_to_rgb_string(accent_hex)
+    # 2. Convert to strings needed for YAML
+    light_rgb_str = rgb_to_str(light_rgb_list)
+    light_hex = rgb_to_hex(light_rgb_list)
     
-    _LOGGER.info(f"Updating Frosted Glass Theme with Primary: {primary_hex} ({primary_rgb})")
+    dark_rgb_str = rgb_to_str(dark_rgb_list)
+    dark_hex = rgb_to_hex(dark_rgb_list)
+    
+    _LOGGER.info(f"Updating Theme | Light: {light_hex}, Dark: {dark_hex}")
 
-    # Replace placeholders with actual values
+    # 3. Replace placeholders
     theme_content = THEME_TEMPLATE.replace(
-        "__PRIMARY_RGB__", primary_rgb
+        "__LIGHT_RGB_STR__", light_rgb_str
     ).replace(
-        "__PRIMARY_HEX__", primary_hex
+        "__LIGHT_HEX__", light_hex
     ).replace(
-        "__ACCENT_RGB__", accent_rgb
+        "__DARK_RGB_STR__", dark_rgb_str
     ).replace(
-        "__ACCENT_HEX__", accent_hex
+        "__DARK_HEX__", dark_hex
     )
     
+    # 4. Write file
     themes_dir = hass.config.path("themes")
     file_path = os.path.join(themes_dir, THEME_FILENAME)
     
@@ -77,4 +76,5 @@ async def async_update_theme_file(hass: HomeAssistant, entry: ConfigEntry):
 
     await hass.async_add_executor_job(_write_file)
     
+    # 5. Reload themes
     await hass.services.async_call("frontend", "reload_themes")

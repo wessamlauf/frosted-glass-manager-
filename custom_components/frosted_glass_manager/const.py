@@ -8,20 +8,18 @@ CONF_DARK_PRIMARY = "dark_primary_color"
 CONF_DARK_BG = "dark_background_url"
 CONF_RESET = "reset_defaults"
 
-# Rozdelené predvolené hodnoty (aj keď sú v YAML rovnaké, pre kód ich oddelíme)
+# Tieto hodnoty musia PRESNE sedieť s tým, čo je v texte nižšie, aby ich script našiel
 DEFAULT_LIGHT_RGB = "106, 116, 211"
 DEFAULT_DARK_RGB = "106, 116, 211"
 
 DEFAULT_LIGHT_BG_URL = "https://cdn.jsdelivr.net/gh/wessamlauf/homeassistant-frosted-glass-themes@refs/heads/main/themes/frosted-glass-light-background.jpg"
 DEFAULT_DARK_BG_URL = "https://cdn.jsdelivr.net/gh/wessamlauf/homeassistant-frosted-glass-themes@refs/heads/main/themes/frosted-glass-dark-background.jpg"
 
-THEME_FILENAME = "frosted_glass_generated.yaml"
+THEME_FILENAME = "Frosted Glass Custom.yaml"
 
-# Tvoj kompletný YAML template
 THEME_TEMPLATE = """# Frosted Glass
-# ver. 1.2.2 - (2025-11-22) 
 
-Frosted Glass:
+Frosted Glass Custom:
   modes:
     light:
       card-mod-theme: "Frosted Glass Light"
@@ -34,7 +32,7 @@ Frosted Glass:
       app-header-text-color: 'rgba(19, 21, 54, 0.95)'
       app-header-edit-background-color: 'rgba(255, 255, 255, 0.8)'
       app-header-edit-text-color: 'rgba(19, 21, 54, 0.98)'
-      app-theme-color: 'rgb(91, 138, 168)'                                                                   # 1.2 Glass – header theme color hint for browsers
+      app-theme-color: 'rgb(91, 138, 168)'
 
       # =========================
       # SIDEBAR / DRAWER
@@ -45,14 +43,12 @@ Frosted Glass:
       sidebar-selected-icon-color: 'rgba(19, 21, 54, 0.95)'
       sidebar-selected-text-color: 'rgba(19, 21, 54, 0.98)'
 
-      # Sidebar blur (card-mod-root section at end handles blur effect!)
-
       # =========================
       # DIALOGS
       # =========================
       ha-dialog-surface-backdrop-filter: 'blur(8px)'                    
       ha-dialog-surface-background: 'rgba(234, 235, 238, 0.7)'
-      dialog-box-shadow: '0 12px 20px rgba(0, 0, 0, 0.15)'                                                   # 1.2 Glass – fix: remove stray quotes inside rgba
+      dialog-box-shadow: '0 12px 20px rgba(0, 0, 0, 0.15)'
       paper-dialog-background-color: 'rgba(234, 235, 238, 0.7)'
       mdc-dialog-scrim-color: 'rgba(0, 0, 0, 0.6)'
 
@@ -68,17 +64,17 @@ Frosted Glass:
         }
 
         /* Glass layer */
-        ha-card::before {                                                                                   /* 1.2 Glass – glass overlay */
+        ha-card::before {
           content: '';
           position: absolute;
           inset: 0;
-          background: var(--ha-card-glass-tint, rgba(255, 255, 255, 0.08));                                  /* 1.2 Glass – subtle tint */
+          background: var(--ha-card-glass-tint, rgba(255, 255, 255, 0.08));
           backdrop-filter: var(--ha-card-backdrop-filter, blur(8px) saturate(1.2));
           -webkit-backdrop-filter: var(--ha-card-backdrop-filter, blur(8px) saturate(1.2));
           z-index: -1;
           pointer-events: none;
           border-radius: inherit;
-          box-shadow: var(--ha-card-glass-inset-shadow,                                                     /* 1.2 Glass – inner bevel/glow */
+          box-shadow: var(--ha-card-glass-inset-shadow,
             3px 3px 0.5px -3.5px rgba(255, 255, 255, 0.30) inset,
             -2px -2px 0.5px -2px rgba(255, 255, 255, 0.30) inset,
             0 0 8px 1px rgba(255, 255, 255, 0.10) inset,
@@ -86,7 +82,7 @@ Frosted Glass:
           );
         }
 
-        /* Headings + Glance (kept as your exclusions) */
+        /* Headings + Glance */
         :host(hui-heading-card) ha-card,
         :host(hui-glance-card) ha-card {
           background: none !important;
@@ -98,10 +94,6 @@ Frosted Glass:
           content: none !important;
         }
 
-        /* IMPORTANT: Allow normal Markdown cards to be glassy; only exclude text-only variant */
-        /* (Fix) Removed global :host(hui-markdown-card) exclusion you had before                      # 1.2 Glass – bugfix
-           so standard Markdown gets the glass. The text-only variant remains excluded below. */
-
         /* Data tables */
         .mdc-data-table {
           background: none !important;
@@ -110,14 +102,14 @@ Frosted Glass:
           background: rgba(255, 255, 255, 0.1) !important;
           backdrop-filter: var(--ha-card-backdrop-filter) !important;
           -webkit-backdrop-filter: var(--ha-card-backdrop-filter) !important;
-          box-shadow: var(--ha-card-glass-inset-shadow) !important;                                         /* 1.2 Glass – consistent bevel */
+          box-shadow: var(--ha-card-glass-inset-shadow) !important;
         }
 
-        /* Markdown card with text_only → no background or blur */                         # 1.1.9 Change - text only markdown and mushroom title card no background // Beginning
+        /* Markdown card with text_only */
         :host(.text-only) ha-card,
         :host(.text-only) ha-card::before,
         ha-card.text-only,
-        ha-card.text-only::before {                                                                     /* 1.2 Glass – add ha-card.text-only for compatibility */
+        ha-card.text-only::before {
           background: none !important;
           backdrop-filter: none !important;
           -webkit-backdrop-filter: none !important;
@@ -125,18 +117,18 @@ Frosted Glass:
           content: none !important;
         }
 
-        /* Mushroom title card (no background or blur) */
+        /* Mushroom title card */
         :host(mushroom-title-card) ha-card {
           background: none !important;
           backdrop-filter: none !important;
           -webkit-backdrop-filter: none !important;
-          box-shadow: none !important;                                                                      /* 1.2 Glass – ensure no bevel */
+          box-shadow: none !important;
         }
         :host(mushroom-title-card) ha-card::before {
           content: none !important;
         }
 
-        /* === Prevent frosted glass from applying to bubble cards ===                # 1.2 Change - Bubble cards are no longer applied */
+        /* Bubble cards */
         :host(.type-custom-bubble-card) ha-card {
           background: none !important;
           backdrop-filter: none !important;
@@ -151,7 +143,7 @@ Frosted Glass:
           -webkit-backdrop-filter: none !important;
         }
 
-        /* === Prevent frosted glass from applying to mushroom-chips-card outer container ===       # 1.2 Change - Outer mushroom chips no longer applied  */
+        /* Mushroom chips */
         :host(mushroom-chips-card) ha-card {
           background: none !important;
           backdrop-filter: none !important;
@@ -174,23 +166,22 @@ Frosted Glass:
         --ha-card-box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
         --ha-card-border-width: 0.5px;
         --ha-card-border-color: rgba(255, 255, 255, 0.3);
-        --ha-card-backdrop-filter: blur(8px) saturate(1.2);                                                    # 1.1.9 change - added blur & saturation for badges
+        --ha-card-backdrop-filter: blur(8px) saturate(1.2);
 
-        /* Glass system tokens (new) */
-        --ha-card-glass-tint: rgba(255, 255, 255, 0.08);                                                     # 1.2 Glass – global tint layer
-        --ha-card-glass-inset-shadow:                                                                        # 1.2 Glass – inner bevel/glow (Liquid Glass inspired)
+        /* Glass system tokens */
+        --ha-card-glass-tint: rgba(255, 255, 255, 0.08);
+        --ha-card-glass-inset-shadow:
           3px 3px 0.5px -3.5px rgba(255, 255, 255, 0.30) inset,
           -2px -2px 0.5px -2px rgba(255, 255, 255, 0.30) inset,
           0 0 8px 1px rgba(255, 255, 255, 0.10) inset,
           0 0 2px 0 rgba(0, 0, 0, 0.10);
        }
 
-       /* Custom text divider row size fix */
        custom-text-divider-row .text-divider-content {
-        background: #fff !important; /* or your color */
+        background: #fff !important;
         opacity: 1 !important;
         box-shadow: none !important;
-        border-radius: 10px !important; /* adjust as needed */
+        border-radius: 10px !important;
         padding: 0 8px !important;
         --text-divider-font-size: 16px !important;
         --text-divider-line-size: 1px;
@@ -198,7 +189,7 @@ Frosted Glass:
        }
 
         
-          # Tokens (used throughout cards/UI)
+          # Tokens
           --token-rgb-primary: 106, 116, 211;
           --token-rgb-black: 0, 0, 0;
           --token-rgb-white: 240, 243, 255;
@@ -318,13 +309,13 @@ Frosted Glass:
           backdrop-filter: blur(6px) saturate(1.2) !important;
           -webkit-backdrop-filter: blur(6px) saturate(1.2) !important;
           background: rgba(234, 235, 238, 0.7) !important;
-          box-shadow: var(--ha-card-glass-inset-shadow) !important;                                              /* 1.2 Glass – subtle inner edge for consistency */
+          box-shadow: var(--ha-card-glass-inset-shadow) !important;
         }
 
         /* CARDS RADIUS */
         ha-card {
           border-radius: var(--token-size-radius-large);
-          border: var(--ha-card-border, var(--ha-card-border-width) solid var(--ha-card-border-color));       /* 1.2 Glass – ensure border follows tokens */
+          border: var(--ha-card-border, var(--ha-card-border-width) solid var(--ha-card-border-color));
           box-shadow: var(--ha-card-box-shadow);
         }
         ha-card ha-card {
@@ -402,21 +393,18 @@ Frosted Glass:
       # =========================
       # COLORS & MISCELLANEOUS
       # =========================
-      
-      # 1.2.1 - change add HA 2025.8 primary color scale aligned to theme
       ha-color-primary-05: '#0D0E19'
       ha-color-primary-10: '#131526'
       ha-color-primary-20: '#20233F'
       ha-color-primary-30: '#30345F'
       ha-color-primary-40: '#40467F'
-      ha-color-primary-50: '#6A74D3'   # base theme primary (kept)
+      ha-color-primary-50: '#6A74D3'
       ha-color-primary-60: '#8F97DE'
       ha-color-primary-70: '#ADB3E7'
       ha-color-primary-80: '#D2D5F2'
       ha-color-primary-90: '#EAECF9'
       ha-color-primary-95: '#F6F7FC'
 
-      # 1.2.1 - change add aliases for compatibility (some threads reference --color-primary-xx)
       color-primary-05: '#0D0E19'
       color-primary-10: '#131526'
       color-primary-20: '#20233F'
@@ -535,7 +523,7 @@ Frosted Glass:
       app-header-text-color: 'rgba(240, 243, 255, 0.95)'
       app-header-edit-background-color: 'rgba(30, 33, 54, 0.8)'
       app-header-edit-text-color: 'rgba(234, 235, 238, 0.98)'
-      app-theme-color: 'rgb(0, 0, 0)'                                                                        # 1.2 Glass – header theme color hint for browsers
+      app-theme-color: 'rgb(0, 0, 0)'
 
       # =========================
       # SIDEBAR / DRAWER
@@ -549,7 +537,7 @@ Frosted Glass:
       # =========================
       # DIALOGS
       # =========================
-      ha-dialog-surface-backdrop-filter: 'blur(8px)'                   # 1.2 Glass – same blur as cards
+      ha-dialog-surface-backdrop-filter: 'blur(8px)'
       ha-dialog-surface-background: 'rgba(30, 30, 30, 0.7)'
       dialog-box-shadow: '0 12px 20px rgba(0, 0, 0, 0.25)'
       paper-dialog-background-color: 'rgba(30, 30, 30, 0.7)'
@@ -567,17 +555,17 @@ Frosted Glass:
         }
 
         /* Glass layer (variable-driven, matches Light) */
-        ha-card::before {                                                                                   /* 1.2 Glass – glass overlay */
+        ha-card::before {
           content: '';
           position: absolute;
           inset: 0;
-          background: var(--ha-card-glass-tint, rgba(28, 29, 33, 0.18));                                     /* 1.2 Glass – subtle dark tint */
+          background: var(--ha-card-glass-tint, rgba(28, 29, 33, 0.18));
           backdrop-filter: var(--ha-card-backdrop-filter, blur(10px) saturate(1.2));
           -webkit-backdrop-filter: var(--ha-card-backdrop-filter, blur(10px) saturate(1.2));
           z-index: -1;
           pointer-events: none;
           border-radius: inherit;
-          box-shadow: var(--ha-card-glass-inset-shadow,                                                     /* 1.2 Glass – inner bevel/glow */
+          box-shadow: var(--ha-card-glass-inset-shadow,
             3px 3px 0.5px -3.5px rgba(255, 255, 255, 0.22) inset,
             -2px -2px 0.5px -2px rgba(255, 255, 255, 0.18) inset,
             0 0 8px 1px rgba(255, 255, 255, 0.06) inset,
@@ -585,7 +573,7 @@ Frosted Glass:
           );
         }
 
-        /* Headings + Glance (kept excluded) */
+        /* Headings + Glance */
         :host(hui-heading-card) ha-card,
         :host(hui-glance-card) ha-card {
           background: none !important;
@@ -597,9 +585,6 @@ Frosted Glass:
           content: none !important;
         }
 
-        /* IMPORTANT: Allow normal Markdown to be glassy; only exclude text-only */
-        /* (Fix) Removed global :host(hui-markdown-card) exclusion so standard Markdown gets glass. */
-
         /* Data tables */
         .mdc-data-table {
           background: none !important;
@@ -608,14 +593,14 @@ Frosted Glass:
           background: rgba(30, 33, 54, 0.18) !important;
           backdrop-filter: var(--ha-card-backdrop-filter) !important;
           -webkit-backdrop-filter: var(--ha-card-backdrop-filter) !important;
-          box-shadow: var(--ha-card-glass-inset-shadow) !important;                                         /* 1.2 Glass – consistent bevel */
+          box-shadow: var(--ha-card-glass-inset-shadow) !important;
         }
 
-        /* Markdown card with text_only → no background or blur */                           # 1.1.9 Change - text only markdown and mushroom title card no background // Beginning
+        /* Markdown card with text_only */
         :host(.text-only) ha-card,
         :host(.text-only) ha-card::before,
         ha-card.text-only,
-        ha-card.text-only::before {                                                                     /* 1.2 Glass – add ha-card.text-only for compatibility */
+        ha-card.text-only::before {
           background: none !important;
           backdrop-filter: none !important;
           -webkit-backdrop-filter: none !important;
@@ -623,18 +608,18 @@ Frosted Glass:
           content: none !important;
         }
 
-        /* Mushroom title card (no background or blur) */
+        /* Mushroom title card */
         :host(mushroom-title-card) ha-card {
           background: none !important;
           backdrop-filter: none !important;
           -webkit-backdrop-filter: none !important;
-          box-shadow: none !important;                                                                      /* 1.2 Glass – ensure no bevel */
+          box-shadow: none !important;
         }
         :host(mushroom-title-card) ha-card::before {
           content: none !important;
         }
 
-        /* === Prevent frosted/glass from applying to bubble cards ===                           # 1.1.9 Change - Bubble cards are no longer applied */
+        /* Bubble cards */
         :host(.type-custom-bubble-card) ha-card {
           background: none !important;
           backdrop-filter: none !important;
@@ -649,7 +634,7 @@ Frosted Glass:
           -webkit-backdrop-filter: none !important;
         }
 
-        /* === Prevent frosted/glass on mushroom-chips-card outer container ===             # 1.1.9 Change - Outer mushroom chips no longer applied */
+        /* Mushroom chips */
         :host(mushroom-chips-card) ha-card {
           background: none !important;
           backdrop-filter: none !important;
@@ -663,8 +648,6 @@ Frosted Glass:
           -webkit-backdrop-filter: none !important;
         }
 
-        /* (Removed) .bubble-button-card-container styling to avoid conflicts                # 1.2 Glass – matches Light exclusions */
-
       # =========================
       # CARD-MOD-ROOT GLOBAL CSS
       # =========================
@@ -674,17 +657,17 @@ Frosted Glass:
           --ha-card-box-shadow: 0 12px 20px rgba(0, 0, 0, 0.28);
           --ha-card-border-width: 0.5px;
           --ha-card-border-color: rgba(234, 235, 238, 0.1);
-          --ha-card-backdrop-filter: blur(10px) saturate(1.2);                                      # 1.2 Glass – same engine as Light, tuned for Dark
+          --ha-card-backdrop-filter: blur(10px) saturate(1.2);
 
-          /* Glass system tokens (new, dark-tuned) */
-          --ha-card-glass-tint: rgba(28, 29, 33, 0.18);                                               # 1.2 Glass – global tint layer
-          --ha-card-glass-inset-shadow:                                                               # 1.2 Glass – inner bevel/glow (Liquid Glass inspired)
+          /* Glass system tokens */
+          --ha-card-glass-tint: rgba(28, 29, 33, 0.18);
+          --ha-card-glass-inset-shadow:
             3px 3px 0.5px -3.5px rgba(255, 255, 255, 0.15) inset,
             -2px -2px 0.5px -2px rgba(255, 255, 255, 0.1) inset,
             0 0 8px 1px rgba(255, 255, 255, 0.06) inset,
             0 0 2px 0 rgba(0, 0, 0, 0.18);
 
-          /* Tokens - match structure to Light theme for consistency */
+          /* Tokens - match structure to Light theme */
           --token-rgb-primary: 106, 116, 211;
           --token-rgb-black: 0, 0, 0;
           --token-rgb-white: 234, 235, 238;
@@ -804,13 +787,13 @@ Frosted Glass:
           backdrop-filter: blur(8px) saturate(1.1) !important;
           -webkit-backdrop-filter: blur(8px) saturate(1.1) !important;
           background: rgba(25, 28, 45, 0.8) !important;
-          box-shadow: var(--ha-card-glass-inset-shadow) !important;                                              # 1.2 Glass – subtle inner edge for consistency
+          box-shadow: var(--ha-card-glass-inset-shadow) !important;
         }
 
         /* CARDS RADIUS */
         ha-card {
           border-radius: var(--token-size-radius-large);
-          border: var(--ha-card-border, var(--ha-card-border-width) solid var(--ha-card-border-color));       # 1.2 Glass – ensure border follows tokens
+          border: var(--ha-card-border, var(--ha-card-border-width) solid var(--ha-card-border-color));
           box-shadow: var(--ha-card-box-shadow);
         }
         ha-card ha-card {

@@ -10,8 +10,8 @@ from homeassistant.helpers.selector import (
 
 from .const import (
     DOMAIN, 
-    DEFAULT_LIGHT_PRIMARY, DEFAULT_LIGHT_TEXT, DEFAULT_LIGHT_BG,
-    DEFAULT_DARK_PRIMARY, DEFAULT_DARK_TEXT, DEFAULT_DARK_BG
+    DEFAULT_LIGHT_PRIMARY, DEFAULT_LIGHT_BG,
+    DEFAULT_DARK_PRIMARY, DEFAULT_DARK_BG
 )
 
 class FrostedGlassConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -41,20 +41,16 @@ class FrostedGlassOptionsFlow(config_entries.OptionsFlow):
 
         # Load current settings or use defaults
         current_light_p = self.config_entry.options.get("light_primary", DEFAULT_LIGHT_PRIMARY)
-        current_light_t = self.config_entry.options.get("light_text", DEFAULT_LIGHT_TEXT)
         current_light_bg = self.config_entry.options.get("light_bg", DEFAULT_LIGHT_BG)
         
         current_dark_p = self.config_entry.options.get("dark_primary", DEFAULT_DARK_PRIMARY)
-        current_dark_t = self.config_entry.options.get("dark_text", DEFAULT_DARK_TEXT)
         current_dark_bg = self.config_entry.options.get("dark_bg", DEFAULT_DARK_BG)
 
         schema = vol.Schema({
             vol.Required("light_primary", default=current_light_p): ColorRGBSelector(ColorRGBSelectorConfig()),
-            vol.Required("light_text", default=current_light_t): ColorRGBSelector(ColorRGBSelectorConfig()),
             vol.Required("light_bg", default=current_light_bg): str,
             
             vol.Required("dark_primary", default=current_dark_p): ColorRGBSelector(ColorRGBSelectorConfig()),
-            vol.Required("dark_text", default=current_dark_t): ColorRGBSelector(ColorRGBSelectorConfig()),
             vol.Required("dark_bg", default=current_dark_bg): str,
             
             vol.Optional("reset_defaults", default=False): BooleanSelector(),
